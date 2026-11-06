@@ -1,0 +1,446 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scanner Value en Crisis — Manual y Fundamento</title>
+<style>
+:root{
+  --cel:#0ea5e9; --cel-d:#0369a1; --cel-dd:#075985; --neon:#22d3ee; --neon2:#67e8f9;
+  --ink:#0f2231; --muted:#5b7183; --line:#e2eef5; --bg:#ffffff; --soft:#f2fafe;
+  --soft2:#e8f6fd; --red:#e11d48; --red-bg:#fff1f4; --green:#0f9d6b; --amber:#d97706;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#eef6fb;color:var(--ink);
+  font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.62;font-size:15px}
+.page{max-width:900px;margin:22px auto;background:var(--bg);
+  box-shadow:0 6px 30px rgba(14,60,90,.10);border-radius:14px;overflow:hidden}
+.inner{padding:0 46px 46px}
+
+/* portada */
+.cover{background:linear-gradient(135deg,#075985 0%,#0ea5e9 55%,#22d3ee 100%);
+  color:#fff;padding:52px 46px 40px}
+.cover .pill{display:inline-block;background:rgba(255,255,255,.20);
+  border:1px solid rgba(255,255,255,.55);padding:4px 14px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:.6px;margin-bottom:18px}
+.cover h1{margin:0 0 10px;font-size:34px;line-height:1.15;letter-spacing:.2px}
+.cover .sub{font-size:16px;opacity:.96;max-width:640px}
+.cover .meta{margin-top:22px;font-size:13px;opacity:.9;
+  border-top:1px solid rgba(255,255,255,.3);padding-top:14px}
+
+/* tipografia */
+h2{font-size:23px;color:var(--cel-dd);margin:40px 0 4px;padding-bottom:8px;
+  border-bottom:2px solid var(--soft2)}
+h2 .num{color:var(--neon);font-weight:800;margin-right:8px}
+h3{font-size:17px;color:var(--cel-d);margin:24px 0 6px}
+p{margin:10px 0}
+a{color:var(--cel-d)}
+strong{color:var(--ink)}
+.lead{font-size:16px;color:#33485a}
+
+/* indice */
+.toc{background:var(--soft);border:1px solid var(--line);border-radius:12px;
+  padding:20px 26px;margin:30px 0 8px}
+.toc h4{margin:0 0 10px;color:var(--cel-dd);font-size:14px;letter-spacing:.5px;text-transform:uppercase}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:34px}
+.toc li{margin:5px 0}
+.toc a{text-decoration:none;color:var(--ink)}
+.toc a:hover{color:var(--cel-d)}
+
+/* callouts */
+.call{border-left:5px solid var(--cel);background:var(--soft);border-radius:10px;
+  padding:16px 20px;margin:20px 0}
+.call.honesty{border-color:var(--red);background:var(--red-bg)}
+.call.honesty h4{color:var(--red)}
+.call.key{border-color:var(--amber);background:#fff8ec}
+.call.key h4{color:var(--amber)}
+.call h4{margin:0 0 8px;font-size:15px;color:var(--cel-dd)}
+.call ul{margin:6px 0 0;padding-left:20px}
+.call li{margin:4px 0}
+
+/* tablas */
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:14px 0}
+th{background:var(--ink);color:#fff;text-align:left;padding:9px 11px;font-weight:600}
+td{padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:var(--soft)}
+.tag{display:inline-block;padding:1px 8px;border-radius:6px;font-size:11.5px;font-weight:700}
+.ok{background:#dcfce7;color:#166534}
+.pend{background:#e0f2fe;color:#075985}
+.warn{background:#fef3c7;color:#92400e}
+
+/* embudo */
+.funnel{margin:18px 0}
+.step{display:flex;gap:14px;align-items:flex-start;background:var(--soft);
+  border:1px solid var(--line);border-left:5px solid var(--cel);border-radius:10px;
+  padding:14px 18px;margin:9px 0}
+.step .b{flex:0 0 46px;height:46px;border-radius:12px;display:flex;align-items:center;
+  justify-content:center;font-weight:800;font-size:19px;color:#fff;
+  background:linear-gradient(135deg,var(--cel),var(--neon))}
+.step .t{flex:1}
+.step h4{margin:0 0 2px;font-size:16px;color:var(--cel-dd)}
+.step .d{font-size:13.5px;color:#33485a}
+.arrow{text-align:center;color:var(--neon);font-size:20px;line-height:1;margin:-2px 0}
+
+/* cajas grid */
+.grid{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0}
+.box{flex:1;min-width:220px;background:var(--soft);border:1px solid var(--line);
+  border-radius:12px;padding:16px 18px}
+.box h4{margin:0 0 6px;color:var(--cel-dd);font-size:15px}
+.box p{margin:4px 0;font-size:13.5px;color:#33485a}
+
+/* codigo */
+code{background:#e6f4fb;color:var(--cel-dd);padding:1px 6px;border-radius:5px;
+  font-family:"Cascadia Code",Consolas,monospace;font-size:13px}
+pre{background:#0b2b3a;color:#d6f3ff;padding:14px 18px;border-radius:10px;overflow-x:auto;
+  font-family:"Cascadia Code",Consolas,monospace;font-size:13px;line-height:1.5}
+pre .c{color:#7fd4a8}
+
+.foot{color:var(--muted);font-size:12px;margin-top:40px;border-top:1px solid var(--line);
+  padding-top:16px}
+
+@media print{
+  body{background:#fff;font-size:11.5pt}
+  .page{box-shadow:none;margin:0;border-radius:0;max-width:100%}
+  h2{page-break-after:avoid}
+  .step,.box,.call,table{page-break-inside:avoid}
+  .toc ol{columns:2}
+  a{color:var(--ink)}
+}
+</style></head><body>
+<div class="page">
+
+<div class="cover">
+  <span class="pill">MANUAL &middot; FUNDAMENTO &middot; SEGURIDAD</span>
+  <h1>Scanner "Value en Crisis"</h1>
+  <div class="sub">Una herramienta para cazar empresas líderes que cayeron fuerte
+  <b>y</b> están baratas de verdad — sin confundir una oportunidad con una trampa.</div>
+  <div class="meta">Documento de referencia y uso &middot; Proyecto BOT 2026 &middot;
+  Versión Fase 1 &middot; Agosto 2026</div>
+</div>
+
+<div class="inner">
+
+<div class="toc">
+  <h4>Contenido</h4>
+  <ol>
+    <li><a href="#s1">Qué es y para qué sirve</a></li>
+    <li><a href="#s2">Por qué usarla</a></li>
+    <li><a href="#s3">Fundamento: por qué debería funcionar (y por qué a veces no)</a></li>
+    <li><a href="#s4">Cómo funciona: el embudo de 4 columnas</a></li>
+    <li><a href="#s5">Qué es "calidad" y cómo se mide</a></li>
+    <li><a href="#s6">Cómo se promedia y se rankea</a></li>
+    <li><a href="#s7">Qué se revisa exactamente</a></li>
+    <li><a href="#s8">Cómo leer el reporte</a></li>
+    <li><a href="#s9">De dónde salen los datos (fuentes)</a></li>
+    <li><a href="#s10">Seguridad de la herramienta</a></li>
+    <li><a href="#s11">Manual de uso (instalar y correr)</a></li>
+    <li><a href="#s12">Estado y hoja de ruta</a></li>
+    <li><a href="#s13">Glosario</a></li>
+  </ol>
+</div>
+
+<h2 id="s1"><span class="num">1</span>Qué es y para qué sirve</h2>
+<p class="lead">El Scanner "Value en Crisis" es una herramienta de análisis (no un robot que opera)
+que revisa las empresas más grandes del mundo y te avisa cuáles están <b>caídas desde su
+pico</b>, para que tú investigues si esa caída es una <b>oportunidad de comprar en crisis</b> o
+una <b>trampa que sigue cayendo</b>.</p>
+<p>Nace de una idea concreta: las mejores compras suelen darse cuando una empresa líder —que
+sigue facturando y creciendo— sufre un golpe temporal (un escándalo, un susto sectorial, un mal
+trimestre) y el mercado la castiga de más. El problema es que <i>desde afuera</i>, una caída sana
+y una caída moribunda se ven idénticas. Esta herramienta existe para <b>separar una de la
+otra con método</b>, no con corazonada.</p>
+<div class="call">
+  <h4>En una frase</h4>
+  <p style="margin:0">Un radar que encuentra líderes castigados y los cruza contra tres preguntas:
+  ¿está barata <b>frente a su competencia</b>? ¿está barata <b>frente a su propia historia</b>?
+  ¿sigue siendo una empresa <b>sana</b>? Solo cuando las tres dan "sí", la caída merece tu atención.</p>
+</div>
+
+<h2 id="s2"><span class="num">2</span>Por qué usarla</h2>
+<div class="grid">
+  <div class="box"><h4>Resuelve un hueco real</h4><p>Casi ningún screener del mercado une
+  "% de caída desde el pico" con valuación relativa y calidad. Finviz filtra caídas; Morningstar
+  mide valor justo; ninguno cruza las dos cosas más las noticias. Esta herramienta ocupa ese hueco.</p></div>
+  <div class="box"><h4>Quita la emoción</h4><p>Comprar en crisis es psicológicamente durísimo:
+  todo el mundo está vendiendo. Un proceso escrito, con criterios fijos, te protege de comprar
+  por pánico ajeno… o de paralizarte cuando sí hay una oportunidad.</p></div>
+  <div class="box"><h4>Te ordena la investigación</h4><p>En vez de revisar 500 empresas a mano,
+  el scanner te entrega una lista corta y priorizada, con los datos ya cruzados, para que tu
+  tiempo lo gastes investigando <i>el porqué</i> de las mejores candidatas.</p></div>
+  <div class="box"><h4>Es honesta contigo</h4><p>No te vende certezas. Cada reporte te recuerda
+  sus propios límites: qué no sabe, qué puede fallar, y por qué es una lista de investigación y
+  no una orden de compra.</p></div>
+</div>
+
+<h2 id="s3"><span class="num">3</span>Fundamento: por qué debería funcionar (y por qué a veces no)</h2>
+<p>La herramienta no es una ocurrencia: está construida sobre evidencia académica y de la
+industria. Pero esa misma evidencia marca sus límites, y aquí te los decimos de frente.</p>
+
+<h3>Lo que la respalda</h3>
+<table>
+  <tr><th>Principio</th><th>Qué dice la evidencia</th></tr>
+  <tr><td><b>Comprar calidad castigada</b><br>(estilo Buffett)</td>
+      <td>"Es mejor una empresa maravillosa a precio justo que una empresa mediocre a precio
+      maravilloso." Una empresa con ventaja competitiva puede reinvertir a tasas altas por años;
+      un susto temporal en un gran negocio es la oportunidad.</td></tr>
+  <tr><td><b>El valor se mide contra la industria</b></td>
+      <td>Estudios (Asness-Porter-Stevens; Cohen-Polk-Vuolteenaho; Ehsani-Harvey-Li 2023) muestran
+      que el efecto "value" es sobre todo <b>intra-industria</b>: comparar el múltiplo contra la
+      mediana de su propio sector funciona mejor que contra el mercado entero.</td></tr>
+  <tr><td><b>El múltiplo que más predice</b></td>
+      <td>En un "horse-race" de 40 años (Gray-Vogel; Carlisle), el <b>EV/EBIT</b> y el
+      <b>EV/EBITDA</b> superaron al P/E y sobre todo al P/B para separar ganadores de perdedores.</td></tr>
+  <tr><td><b>Calidad separa oportunidad de trampa</b></td>
+      <td>El F-Score de Piotroski, aplicado a acciones baratas, mejoró el retorno de la cartera
+      barata en ≥7,5%/año en su estudio original — justamente filtrando las empresas frágiles.</td></tr>
+</table>
+
+<div class="call honesty">
+  <h4>Honestidad ante todo — los límites que no te vamos a esconder</h4>
+  <ul>
+    <li><b>La caída sola NO es señal.</b> Estadísticamente tiene edge casi nulo (negativo a corto
+    plazo) en acciones individuales. Según Morgan Stanley, <b>~1 de cada 5</b> blue chips que caen
+    menos de 50% <b>nunca</b> recupera su pico. Por eso la caída solo <i>genera candidatos</i>.</li>
+    <li><b>El edge es "de canasta", no una bola de cristal.</b> La ventaja documentada aparece al
+    comprar un <b>grupo diversificado</b> de acuerdo al criterio, sostenido 3–5 años — no al apostar
+    a un solo nombre, cuyo resultado lo domina el ruido impredecible (un escándalo, una demanda).</li>
+    <li><b>Existen las "trampas de valor" (value traps).</b> General Electric, Intel, Kraft Heinz:
+    todas eran líderes, todas "seguían facturando", todas cayeron 50%… y luego otro 50%. La calidad
+    y los "flags de deterioro" son el antídoto, pero no son infalibles.</li>
+    <li><b>Sesgo de supervivencia.</b> El scanner mira el S&amp;P 500 <i>de hoy</i>, que ya no
+    incluye a las que cayeron y murieron (Kodak, Lehman). El presente siempre se ve más seguro de
+    lo que fue.</li>
+    <li><b>La trampa del múltiplo barato.</b> En crisis, las ganancias caen más rápido que el
+    precio, así que el P/E puede <i>subir</i> aunque la acción baje. Por eso medimos también en
+    <b>EV/Ventas</b> (las ventas se deprimen menos) y contra la industria.</li>
+  </ul>
+</div>
+
+<h2 id="s4"><span class="num">4</span>Cómo funciona: el embudo de 4 columnas</h2>
+<p>El scanner filtra en etapas. Cada una es un embudo que deja pasar menos empresas, pero mejores.
+Solo se piden datos caros (fundamentales, noticias) para las que <b>ya pasaron</b> el filtro de
+precio — así se usa el mínimo de datos externos.</p>
+
+<div class="funnel">
+  <div class="step"><div class="b">1</div><div class="t">
+    <h4>PRECIO — la gran caída <span class="tag ok">Implementada</span></h4>
+    <div class="d">Detecta empresas caídas entre 20% y 50% desde su <b>pico móvil</b> (el máximo de
+    los últimos ~12 meses), y que el pico sea <b>reciente</b>. Es el gatillo que genera la lista
+    de candidatos. También mide la <i>velocidad</i> (días desde el pico) y la <i>severidad</i>
+    (qué tan rara es esa caída para esa acción).</div></div></div>
+  <div class="arrow">▼</div>
+  <div class="step"><div class="b">2</div><div class="t">
+    <h4>VALUACIÓN — ¿barata de verdad? <span class="tag pend">Planeada</span></h4>
+    <div class="d">Aquí muere el caso "cayó 40% pero sigue cara". Se calcula el múltiplo
+    (EV/EBIT, EV/EBITDA, EV/Ventas) y se compara <b>(a)</b> contra la mediana de su industria
+    —¿está más barata que sus competidoras?— y <b>(b)</b> contra su propia historia de 5–10 años
+    —¿está barata para su propio estándar?—. Solo si ambas dan "sí" es una caída con descuento real.</div></div></div>
+  <div class="arrow">▼</div>
+  <div class="step"><div class="b">3</div><div class="t">
+    <h4>CALIDAD — ¿sigue siendo sana? <span class="tag pend">Planeada</span></h4>
+    <div class="d">El filtro anti-trampa. Se calculan los scores de salud (Piotroski, Altman,
+    Beneish) y métricas de negocio (ROIC, márgenes, deuda, flujo de caja). Y se levantan
+    <b>"flags de deterioro"</b> que argumentan <i>en contra</i>: ventas cayendo, márgenes
+    erosionándose, deuda subiendo, riesgo de recorte de dividendo.</div></div></div>
+  <div class="arrow">▼</div>
+  <div class="step"><div class="b">4</div><div class="t">
+    <h4>NOTICIAS — el porqué <span class="tag pend">Planeada</span></h4>
+    <div class="d">Para cada candidata que sobrevive, se traen los titulares recientes que
+    explican <i>por qué</i> cayó. Esto no se automatiza al 100%: la máquina te trae el contexto,
+    tú das el veredicto final de si el motivo es temporal o estructural.</div></div></div>
+</div>
+
+<h2 id="s5"><span class="num">5</span>Qué es "calidad" y cómo se mide</h2>
+<p>"Calidad" = qué tan sana y difícil de quebrar es la empresa. Es lo que separa un susto
+temporal (comprar) de una decadencia estructural (huir). Se mide con tres scores probados y varias
+métricas de negocio.</p>
+<table>
+  <tr><th>Medida</th><th>Qué revisa</th><th>Rango sano</th></tr>
+  <tr><td><b>Piotroski F-Score</b><br>(0 a 9)</td>
+      <td>Nueve pruebas de salud financiera en 3 grupos: <b>rentabilidad</b> (¿gana dinero?, ¿genera
+      caja?, ¿mejora?), <b>deuda/liquidez</b> (¿se desapalanca?, ¿no diluye acciones?) y
+      <b>eficiencia</b> (¿mejoran márgenes y rotación?). Diseñado justo para hallar los sanos dentro
+      de un universo castigado.</td>
+      <td>7–9 fuerte<br>0–2 alerta</td></tr>
+  <tr><td><b>Altman Z-Score</b></td>
+      <td>Riesgo de quiebra a partir de capital de trabajo, ganancias retenidas, EBIT, valor de
+      mercado y ventas sobre activos. Es el filtro de supervivencia.</td>
+      <td>&gt;2,99 seguro<br>&lt;1,81 peligro</td></tr>
+  <tr><td><b>Beneish M-Score</b></td>
+      <td>Detecta señales de <b>maquillaje contable</b> (para no confiar en números manipulados).</td>
+      <td>&lt; −2,22 limpio</td></tr>
+  <tr><td><b>ROIC / márgenes</b></td>
+      <td>Retorno sobre el capital y márgenes: si <b>aguantan</b> durante la caída, la ventaja
+      competitiva sigue intacta; si se derrumban, es decadencia.</td>
+      <td>ROIC alto y estable</td></tr>
+  <tr><td><b>Flujo de caja libre (FCF)</b></td>
+      <td>Caja real que genera el negocio tras invertir. La caja "llegó o no llegó" — es más difícil
+      de fingir que las ganancias contables.</td>
+      <td>Positivo y creciente</td></tr>
+  <tr><td><b>Deuda y cobertura</b></td>
+      <td>Deuda neta / EBITDA y cobertura de intereses: cuánta pista tiene para sobrevivir el bache.</td>
+      <td>Deuda baja, cobertura alta</td></tr>
+</table>
+<p class="lead" style="font-size:14px">Nota: los tres scores se <b>calculan dentro de la
+herramienta</b> a partir de los estados financieros, no se copian de un proveedor — así los umbrales
+son auditables y sabes exactamente de dónde sale cada número.</p>
+
+<h2 id="s6"><span class="num">6</span>Cómo se promedia y se rankea</h2>
+<p>Ningún múltiplo por sí solo es "el edge". La evidencia (AQR) es clara: un <b>score compuesto</b>
+—promediar varias señales de valor— es más estable y confiable que cualquiera individual. Así se
+arma, en pasos simples:</p>
+<div class="grid">
+  <div class="box"><h4>1 · Estandarizar</h4><p>Cada métrica (EV/EBIT, FCF/EV, shareholder yield…)
+  se convierte a un <b>z-score</b>: un número que dice cuántas "desviaciones" está por encima o por
+  debajo del promedio del universo. Esto permite comparar peras con manzanas.</p></div>
+  <div class="box"><h4>2 · Promediar</h4><p>Se promedian esos z-scores en un solo
+  <b>Score Compuesto de Valor</b>. Una empresa barata en varias métricas a la vez puntúa mejor que
+  una que solo se ve barata en una (posiblemente distorsionada).</p></div>
+  <div class="box"><h4>3 · Filtrar por calidad</h4><p>El score de valor se <b>cruza con la
+  calidad</b>: una empresa barata pero enferma (Piotroski bajo, Altman en peligro, flags rojos)
+  se penaliza o se descarta. La calidad es una <i>barrera</i>, no un segundo eje de "barato".</p></div>
+  <div class="box"><h4>4 · Ordenar y agrupar</h4><p>Se ordena la lista por ese score final. La
+  <b>vista canasta</b> toma los primeros N como cartera diversificada; la <b>vista radar</b> los
+  muestra uno por uno para investigar.</p></div>
+</div>
+<div class="call">
+  <h4>Sobre la "severidad" (lo que ya ves en la Fase 1)</h4>
+  <p style="margin:0">Mientras la valuación llega, el radar ordena por <b>severidad</b>: qué tan
+  rara es la caída actual comparada con la propia historia de esa acción. Ejemplo real: McDonald's
+  −20% aparece antes que Netflix −42%, porque para McDonald's caer 20% es su peor momento en 5 años
+  (raro = interesante), mientras que Netflix se mueve así seguido (normal = menos señal).</p>
+</div>
+
+<h2 id="s7"><span class="num">7</span>Qué se revisa exactamente</h2>
+<div class="grid">
+  <div class="box"><h4>Precio (Fase 1)</h4><p>Caída % desde pico móvil · caída desde máximo histórico
+  · días desde el pico · severidad vs su historia · validación de ticks malos y splits.</p></div>
+  <div class="box"><h4>Valuación (Fase 2)</h4><p>EV/EBIT · EV/EBITDA · EV/Ventas · FCF yield ·
+  descuento vs mediana de industria · percentil/z-score vs su propia historia · score compuesto.</p></div>
+  <div class="box"><h4>Calidad (Fase 3)</h4><p>Piotroski F · Altman Z · Beneish M · ROIC ·
+  márgenes y su tendencia · crecimiento de ventas 3–5 años · deuda/EBITDA · cobertura de dividendo.</p></div>
+  <div class="box"><h4>Flags de deterioro (Fase 3)</h4><p>Ventas en declive · márgenes cayendo ·
+  apalancamiento subiendo · cobertura bajando · impairment/goodwill reciente · riesgo de recorte
+  de dividendo.</p></div>
+</div>
+
+<h2 id="s8"><span class="num">8</span>Cómo leer el reporte</h2>
+<p>El reporte HTML tiene dos vistas, más una sección de honestidad. Así se interpreta cada columna:</p>
+<table>
+  <tr><th>Columna</th><th>Qué significa</th></tr>
+  <tr><td><b>Caída</b></td><td>Cuánto cayó desde su pico móvil de ~12 meses. Es el gatillo, no la señal.</td></tr>
+  <tr><td><b>Días</b></td><td>Días desde que tocó ese pico. Pocos días = susto fresco; muchos = derrite lento.</td></tr>
+  <tr><td><b>Sev. (severidad)</b></td><td>De 0 a 100. <b>Bajo = más raro/severo</b> para esa acción
+  (está peor de lo habitual). Alto = caída normal para ella.</td></tr>
+  <tr><td><b>Valuación / Calidad</b></td><td>Se llenan en las Fases 2 y 3. Hoy muestran "Fase 2/3".</td></tr>
+  <tr><td><b>Vista RADAR</b></td><td>Candidatos individuales para investigar a fondo, uno por uno.</td></tr>
+  <tr><td><b>Vista CANASTA</b></td><td>Los primeros N como grupo diversificado, con reparto por
+  sector. Recuerda: el edge vive aquí, en el grupo — no en un solo nombre.</td></tr>
+</table>
+
+<h2 id="s9"><span class="num">9</span>De dónde salen los datos (fuentes)</h2>
+<table>
+  <tr><th>Fuente</th><th>Qué aporta</th><th>Costo</th><th>Fiabilidad / límite</th></tr>
+  <tr><td><b>Wikipedia</b> (lista S&amp;P 500)</td><td>Los tickers, nombre y sector de las 500 empresas</td>
+      <td>Gratis</td><td>Fiable; hay respaldo (datahub CSV + copia local) si falla.</td></tr>
+  <tr><td><b>Yahoo Finance</b> (vía yfinance)</td><td>Precios ajustados por splits/dividendos y
+      capitalización de mercado</td><td>Gratis</td>
+      <td>Se puede bloquear si se abusa; por eso el scanner <b>cachea local</b> y descarga por lotes.</td></tr>
+  <tr><td><b>Financial Modeling Prep (FMP)</b></td><td>Estados financieros, ratios y medianas de
+      sector (Fase 2–3)</td><td>Gratis (250/día)</td><td>Requiere una API key gratuita. Se cachea por trimestre.</td></tr>
+  <tr><td><b>Finnhub</b></td><td>Noticias por empresa (Fase 4)</td><td>Gratis (60/min)</td>
+      <td>Requiere una API key gratuita.</td></tr>
+  <tr><td><b>Dataset de Damodaran</b> (NYU)</td><td>Múltiplos mediana por industria (para el
+      "vs competencia")</td><td>Gratis</td><td>Archivo anual, incluido con la herramienta.</td></tr>
+</table>
+<p class="lead" style="font-size:14px">Todos los datos son <b>públicos y de mercado</b>. La
+herramienta nunca lee tu bróker, tu cuenta ni tu información personal.</p>
+
+<h2 id="s10"><span class="num">10</span>Seguridad de la herramienta</h2>
+<div class="grid">
+  <div class="box"><h4>🔒 No toca tu dinero</h4><p>El scanner <b>solo lee y analiza datos</b>. No
+  ejecuta órdenes, no se conecta a tu bróker, no mueve fondos, no compra ni vende nada. Es
+  imposible que opere por ti.</p></div>
+  <div class="box"><h4>🔒 Corre en tu PC</h4><p>Todo el análisis es local. Los datos se guardan en
+  <code>scanner\cache\</code> en tu máquina. Nada de tu configuración o resultados se envía a
+  terceros.</p></div>
+  <div class="box"><h4>🔒 Llaves de solo-lectura</h4><p>Las API keys (FMP, Finnhub) son gratuitas y
+  <b>solo sirven para leer</b> datos de mercado. No dan acceso a dinero ni a cuentas. Van en
+  <code>config.local.py</code>, que <b>no se comparte</b>.</p></div>
+  <div class="box"><h4>🔒 Sin credenciales financieras</h4><p>Nunca te pide contraseñas de banco,
+  tarjetas, ni datos sensibles. Si algún día una versión los pidiera, sería una señal de alarma:
+  esta herramienta no los necesita.</p></div>
+</div>
+<div class="call honesty">
+  <h4>Seguridad como inversor — lo más importante</h4>
+  <ul>
+    <li>Esto <b>NO es asesoría financiera</b> ni una recomendación de compra. Es una herramienta de
+    investigación que arma una lista para que <b>tú</b> decidas y profundices.</li>
+    <li>Ningún resultado es una garantía. El edge es estadístico, de canasta y de largo plazo; en el
+    camino habrá candidatas que salgan mal.</li>
+    <li>Diversifica y arriesga solo lo que puedas perder. La herramienta reduce el ruido, no elimina
+    el riesgo.</li>
+  </ul>
+</div>
+
+<h2 id="s11"><span class="num">11</span>Manual de uso (instalar y correr)</h2>
+<h3>Requisitos (una sola vez)</h3>
+<pre><span class="c"># desde la carpeta del scanner</span>
+cd "C:\Users\dig8_\OneDrive\Documents\BOT 2026\scanner"
+pip install -r requirements.txt</pre>
+<h3>Correr el scanner</h3>
+<pre><span class="c"># Fase 1: caídas desde el pico (no necesita API keys)</span>
+python scanner.py --stage price
+
+<span class="c"># universo más chico y rápido (top 50)</span>
+python scanner.py --stage price --top 50</pre>
+<p>El reporte queda en <code>scanner\salida\scanner_AAAAMMDD.html</code>. Ábrelo en el navegador.
+La primera corrida tarda ~1 minuto (baja los datos y los cachea); las siguientes son casi
+instantáneas el mismo día.</p>
+<h3>Para las Fases 2–4 (cuando estén)</h3>
+<p>Consigue 2 llaves gratis (sin tarjeta, ~5 min) y pégalas en <code>scanner\config.local.py</code>:</p>
+<table>
+  <tr><td><b>FMP</b></td><td>site.financialmodelingprep.com/developer/docs</td></tr>
+  <tr><td><b>Finnhub</b></td><td>finnhub.io/register</td></tr>
+</table>
+<h3>Parámetros que puedes ajustar</h3>
+<p>Todo vive en <code>scanner\config.py</code>: la banda de caída (<code>DROP_MIN</code>,
+<code>DROP_MAX</code>), la ventana del pico (<code>PEAK_WINDOW_DAYS</code>), qué tan reciente debe
+ser el pico (<code>RECENT_DAYS</code>), el tamaño del universo (<code>UNIVERSE_TOP_N</code>) y de la
+canasta (<code>BASKET_TOP_N</code>).</p>
+
+<h2 id="s12"><span class="num">12</span>Estado y hoja de ruta</h2>
+<table>
+  <tr><th>Fase</th><th>Qué hace</th><th>Estado</th></tr>
+  <tr><td>0 · Entorno</td><td>Dependencias, configuración, llaves</td><td><span class="tag ok">Lista</span></td></tr>
+  <tr><td>1 · Precio</td><td>Caídas 20–50% desde pico móvil + reporte con doble vista</td><td><span class="tag ok">Lista y corriendo</span></td></tr>
+  <tr><td>2 · Valuación</td><td>EV/EBIT + descuento vs industria + z-score propio</td><td><span class="tag warn">Necesita API keys</span></td></tr>
+  <tr><td>3 · Calidad</td><td>Piotroski / Altman / Beneish + flags de deterioro</td><td><span class="tag pend">Planeada</span></td></tr>
+  <tr><td>4 · Noticias</td><td>Titulares recientes por candidata</td><td><span class="tag pend">Planeada</span></td></tr>
+  <tr><td>5 · Canasta + automático</td><td>Ranking final + tarea programada semanal</td><td><span class="tag pend">Planeada</span></td></tr>
+</table>
+
+<h2 id="s13"><span class="num">13</span>Glosario</h2>
+<table>
+  <tr><td><b>Drawdown / caída desde pico</b></td><td>Cuánto ha bajado el precio desde su máximo reciente.</td></tr>
+  <tr><td><b>Pico móvil</b></td><td>El precio más alto dentro de una ventana reciente (ej. últimos 12 meses), no de toda la historia.</td></tr>
+  <tr><td><b>Múltiplo</b></td><td>Cuánto pagas por cada unidad de algo (ganancias, ventas). Ej. P/E = precio ÷ ganancias.</td></tr>
+  <tr><td><b>EV/EBIT</b></td><td>Valor de la empresa (incluyendo deuda) ÷ ganancia operativa. El múltiplo con más edge documentado.</td></tr>
+  <tr><td><b>Mediana de industria</b></td><td>El múltiplo "típico" de sus competidoras. Comparar contra él dice si está barata frente a sus pares.</td></tr>
+  <tr><td><b>Z-score / percentil</b></td><td>Cuán lejos está un número de su promedio histórico. Sirve para ver si está barata para su propio estándar.</td></tr>
+  <tr><td><b>F-Score (Piotroski)</b></td><td>Puntaje 0–9 de salud financiera. Alto = sana.</td></tr>
+  <tr><td><b>Z-Score (Altman)</b></td><td>Puntaje de riesgo de quiebra. Bajo = peligro.</td></tr>
+  <tr><td><b>FCF (flujo de caja libre)</b></td><td>Caja que sobra tras operar e invertir. Difícil de fingir.</td></tr>
+  <tr><td><b>Value trap (trampa de valor)</b></td><td>Una acción que parece barata pero cae porque su negocio se deteriora de verdad.</td></tr>
+  <tr><td><b>Sesgo de supervivencia</b></td><td>Ver solo a las que sobrevivieron; ignora a las que quebraron, haciendo todo parecer más seguro.</td></tr>
+  <tr><td><b>Edge</b></td><td>Ventaja estadística real y repetible, por encima del azar.</td></tr>
+  <tr><td><b>Canasta</b></td><td>Comprar un grupo diversificado según el criterio, en vez de apostar a una sola acción.</td></tr>
+</table>
+
+<div class="foot">
+  <b>Scanner "Value en Crisis"</b> — Manual y Fundamento · Proyecto BOT 2026 · Versión Fase 1 · Agosto 2026.<br>
+  Documento de uso interno. No constituye asesoría financiera ni recomendación de inversión.
+  Herramienta de investigación: las decisiones y su riesgo son del usuario.
+</div>
+
+</div>
+</div>
+</body></html>
