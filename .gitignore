@@ -1,0 +1,8 @@
+# NUNCA subir la llave / secretos
+config.local.py
+
+# generados y cache (se regeneran en cada corrida)
+cache/
+salida/
+__pycache__/
+*.pyc
