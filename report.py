@@ -808,6 +808,7 @@ def build_report(candidates, prices, universe, warns=None, path=None, news=None)
     <button data-set="claro">Claro</button>
     <button data-set="hibrido">Hibrido</button>
     <button data-set="oscuro" aria-pressed="true">Oscuro</button>
+
   </div>
   <div class="stats">
     <div class="kpi kpi-cel"><div class="ic">{_IC_UNIVERSO}</div><div class="n">{n_uni}</div><div class="l">Universo</div></div>
@@ -881,11 +882,7 @@ def build_report(candidates, prices, universe, warns=None, path=None, news=None)
     Scanner "Value en Crisis" &middot; {fase_foot} &middot; {ts}<br>
     Parametros: pico movil {C.PEAK_WINDOW_DAYS}d, banda {int(C.DROP_MIN*100)}-{int(C.DROP_MAX*100)}%,
     pico reciente &le; {C.RECENT_DAYS}d, historico {C.PRICE_YEARS}a. Precios ajustados por splits y dividendos.
-    <div class="credit"
-      <span class="soc soc-in" title="LinkedIn">{_IC_IN}</span>
-    </div>
-  </div>
-</div>
+    <div class="credit">
 
     path = path or os.path.join(C.OUT_DIR, f"scanner_{time.strftime('%Y%m%d')}.html")
     with open(path, "w", encoding="utf-8") as f:
