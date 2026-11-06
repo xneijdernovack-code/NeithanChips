@@ -801,9 +801,7 @@ def build_report(candidates, prices, universe, warns=None, path=None, news=None)
   <div class="sub">Universo: top {n_uni} del S&amp;P 500 por capitalizacion &middot;
   Filtro: caida {int(C.DROP_MIN*100)}&ndash;{int(C.DROP_MAX*100)}% desde el pico movil de
   {C.PEAK_WINDOW_DAYS//21} meses, ocurrido en el ultimo ano. Generado {ts}.</div>
-  <div class="byline">Scanner de <b>Jeanpierre Saavedra</b>
-    <span class="soc soc-in" title="LinkedIn">{_IC_IN}</span>
-    <a class="soc soc-ig" href="https://www.instagram.com/jeanpierresaavedrad" target="_blank" rel="noopener" title="Instagram">{_IC_IG} @jeanpierresaavedrad</a>
+  
   </div>
   <div class="themebar" role="group" aria-label="Tema">
     <button data-set="auto">Auto</button>
