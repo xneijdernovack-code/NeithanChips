@@ -1,0 +1,70 @@
+name: Deploy Blue Chip Value Scanner
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create website
+        run: |
+          mkdir -p public
+          cat > public/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html lang="es">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Blue Chip Value Scanner</title>
+            <style>
+              body {
+                background: #101820;
+                color: white;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 80px 20px;
+              }
+              h1 { color: #55d6a7; }
+              p { color: #b8c5ce; }
+            </style>
+          </head>
+          <body>
+            <h1>BLUE CHIP VALUE SCANNER</h1>
+            <h2>Our investment research platform</h2>
+            <p>Platform deployment successful.</p>
+            <p>Scanner initialization in progress.</p>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
