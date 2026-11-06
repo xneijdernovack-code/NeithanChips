@@ -883,13 +883,11 @@ def build_report(candidates, prices, universe, warns=None, path=None, news=None)
     Scanner "Value en Crisis" &middot; {fase_foot} &middot; {ts}<br>
     Parametros: pico movil {C.PEAK_WINDOW_DAYS}d, banda {int(C.DROP_MIN*100)}-{int(C.DROP_MAX*100)}%,
     pico reciente &le; {C.RECENT_DAYS}d, historico {C.PRICE_YEARS}a. Precios ajustados por splits y dividendos.
-    <div class="credit">Creado por <b>Jeanpierre Saavedra</b>
+    <div class="credit"
       <span class="soc soc-in" title="LinkedIn">{_IC_IN}</span>
-      <a class="soc soc-ig" href="https://www.instagram.com/jeanpierresaavedrad" target="_blank" rel="noopener">{_IC_IG} @jeanpierresaavedrad</a>
     </div>
   </div>
 </div>
-<div class="watermark" aria-hidden="true">Scanner &middot; Jeanpierre Saavedra <span class="wm-ig">{_IC_IG}</span> @jeanpierresaavedrad</div>{SCRIPT}</body></html>"""
 
     path = path or os.path.join(C.OUT_DIR, f"scanner_{time.strftime('%Y%m%d')}.html")
     with open(path, "w", encoding="utf-8") as f:
